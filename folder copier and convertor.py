@@ -21,7 +21,7 @@ while True:
 		
 while True:
 	change_filenames = input('\nDo you want to replace any text in the names of the backup files? (y/n)\n')
-	change_filenames = convert_to_txt.lower()
+	change_filenames = change_filenames.lower()
 	if change_filenames == 'y': 
 		name_TextToTakeOut = input('\nWhat text do you want to remove from the filename?\n')
 		name_ReplacementText = input('\nWhat text do you want to replace this text with?\n')
