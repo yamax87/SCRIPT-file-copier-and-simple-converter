@@ -12,9 +12,21 @@ while True:
 		
 
 while True:
-	convert_to_txt = input('\nConvert files to .txt? (y/n)')
+	convert_to_txt = input('\nConvert files to .txt? (y/n)\n')
 	convert_to_txt = convert_to_txt.lower()
 	if (convert_to_txt == 'y') or (convert_to_txt == 'n'):
+		break
+	else:
+		print('Sorry, that input is not valid.\n')
+		
+while True:
+	change_filenames = input('\nDo you want to replace any text in the names of the backup files? (y/n)\n')
+	change_filenames = convert_to_txt.lower()
+	if change_filenames == 'y': 
+		name_TextToTakeOut = input('\nWhat text do you want to remove from the filename?\n')
+		name_ReplacementText = input('\nWhat text do you want to replace this text with?\n')
+		break
+	elif change_filenames == 'n':
 		break
 	else:
 		print('Sorry, that input is not valid.\n')
@@ -53,7 +65,20 @@ if convert_to_txt == 'y':
 			full_path = os.path.join(folder_location, file_name)
 			primed_path = os.path.splitext(full_path)[0]
 			full_path = os.rename(full_path, primed_path + '.txt')
-	shutil.move(backup_folder, backup_folder)
+	#shutil.move(backup_folder, backup_folder)
+	
+	
+if change_filenames == 'y':
+	changed_filenames = 0
+	for folder_location, child_folders, file_names in os.walk(backup_folder):
+		for file_name in file_names:
+			if name_TextToTakeOut in file_name:
+				old_full_path = os.path.join(folder_location, file_name)
+				file_name = file_name.replace(name_TextToTakeOut,name_ReplacementText)
+				new_full_path = os.path.join(folder_location, file_name)
+				file_name = os.rename(old_full_path, new_full_path)
+				changed_filenames += 1
+	#shutil.move(backup_folder, backup_folder)
 	
 	
 for folder_name, child_folders, files in os.walk(backup_folder):
@@ -64,8 +89,9 @@ for folder_name, child_folders, files in os.walk(backup_folder):
 
 print('-'*50+'\n')
 
-print(str(total_child_folders) + ' folders found.')
-print(str(total_files) + ' files found.')
+print(f"{total_child_folders}  folders found.")
+print(f"{total_files} files found.")
+print(f"{changed_filenames} filenames changed.")
 
 print('\nAll files and folders successfully relocated.\n')
 
